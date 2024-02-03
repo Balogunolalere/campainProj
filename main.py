@@ -5,7 +5,8 @@ from app import config
 import smtplib
 from email.mime.text import MIMEText
 from deta import Deta
-from app.api import router as api_router
+from app.subscriber import router as subscriber_router
+from app.campaign import router as campaign_router
 
 
 app = FastAPI(title="Email Marketing App")
@@ -25,7 +26,8 @@ logger.setLevel(LOGGING_LEVEL)
 logger.propagate = False  # Avoid duplicate logging in FastAPI
 
 # Import and mount API routes
-app.include_router(api_router, prefix="/api", tags=["Marketing API"])
+app.include_router(subscriber_router, prefix="/subscriber", tags=["Subscribers API"])
+#app.include_router(campaign_router, prefix="/campaign", tags=["Campaigns API"])
 
 
 # Initialize Deta with project key

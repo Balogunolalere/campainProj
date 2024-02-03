@@ -1,8 +1,13 @@
 # config.py
+# import os and dotenv
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
 
 # Deta
-DETA_PROJECT_KEY = "your_deta_project_key"
-
+DETA_PROJECT_KEY = os.getenv("DETA_PROJECT_KEY")
 # SMTP
 SMTP_SERVER = "your_smtp_server"
 SMTP_PORT = 587

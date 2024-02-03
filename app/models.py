@@ -1,22 +1,15 @@
 from pydantic import BaseModel,validator
 import re
 from datetime import datetime
+from typing import Optional
 
 class Subscriber(BaseModel):
     email: str
-    name: str = None
-    subscribed: bool = True
+    subscribed: bool
+    created_at: datetime 
 
-    @validator("email")
-    def validate_email(cls, value):
-        # Email validation logic (e.g., regex)
-        raise ValueError("Invalid email address") if not value or not re.match("^\w+@[a-zA-Z0-9_.\-]+\.[a-zA-Z]+$", value) else value
-
-    class Config:
-        # Customize error messages for validation failures
-        error_messages = {
-            "email": {"invalid": "Please enter a valid email address."},
-        }
+class UpdateSubscriber(Subscriber):
+    subscribed: Optional[bool] = None
 
 
 class Campaign(BaseModel):

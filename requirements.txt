@@ -2,3 +2,5 @@ fastapi
 uvicorn
 deta
 apscheduler
+python-multipart
+python-dotenv
