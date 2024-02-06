@@ -4,3 +4,6 @@ deta
 apscheduler
 python-multipart
 python-dotenv
+pytest
+httpx
+pydantic[email]

@@ -1,50 +1,60 @@
-from pydantic import BaseModel,validator
-import re
+from pydantic import BaseModel, Field, EmailStr
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
+from enum import Enum
+
+class Status(str, Enum):
+    draft = "draft"
+    scheduled = "scheduled"
+    sent = "sent"
 
 class Subscriber(BaseModel):
-    email: str
-    subscribed: bool
-    created_at: datetime 
+    email: EmailStr = Field(...)
+    subscribed: bool = Field(...)
+    created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: Optional[datetime] = Field(None)
+    first_name: Optional[str] = Field(None)
+    last_name: Optional[str] = Field(None)
+    source: Optional[str] = Field(None)
 
-class UpdateSubscriber(Subscriber):
-    subscribed: Optional[bool] = None
-
+class SubscriberUpdate(BaseModel):
+    email: Optional[EmailStr] = Field(None)
+    subscribed: Optional[bool] = Field(None)
+    updated_at: Optional[datetime] = Field(None)
+    first_name: Optional[str] = Field(None)
+    last_name: Optional[str] = Field(None)
+    source: Optional[str] = Field(None)
 
 class Campaign(BaseModel):
-    subject: str
-    content: str
-    list_ids: list[str]
+    subject: str = Field(...)
+    content: str = Field(...)
+    list_ids: List[str] = Field(...)
+    created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: Optional[datetime] = Field(None)
+    status: Status = Field(Status.draft)
+    scheduled_at: Optional[datetime] = Field(None)
+    sent_at: Optional[datetime] = Field(None)
+    sender_id: Optional[str] = Field(None)
 
-    @validator("list_ids")
-    def validate_list_ids(cls, value):
-        # List ID validation logic (e.g., regex)
-        raise ValueError("Invalid list ID") if not value or not re.match("^[a-zA-Z0-9]+$", value) else value
-    
-    class Config:
-        # Customize error messages for validation failures
-        error_messages = {
-            "list_ids": {"invalid": "Please enter a valid list ID."},
-        }
-
+class CampaignUpdate(BaseModel):
+    subject: Optional[str] = Field(None)
+    content: Optional[str] = Field(None)
+    list_ids: Optional[List[str]] = Field(None)
+    updated_at: Optional[datetime] = Field(None)
+    status: Optional[Status] = Field(None)
+    scheduled_at: Optional[datetime] = Field(None)
+    sent_at: Optional[datetime] = Field(None)
+    sender_id: Optional[str] = Field(None)
 
 class EmailList(BaseModel):
-    name: str
-    description: str = None
-    created_at: datetime = None
-    updated_at: datetime = None
+    name: str = Field(...)
+    description: Optional[str] = Field(None)
+    created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: Optional[datetime] = Field(None)
 
-    @validator("name")
-    def validate_name(cls, value):
-        # List name validation logic (e.g., regex)
-        raise ValueError("Invalid list name") if not value or not re.match("^[a-zA-Z0-9]+$", value) else value
-
-    class Config:
-        # Customize error messages for validation failures
-        error_messages = {
-            "name": {"invalid": "Please enter a valid list name."},
-        }
+class EmailListUpdate(BaseModel):
+    name: Optional[str] = Field(None)
+    description: Optional[str] = Field(None)
+    updated_at: Optional[datetime] = Field(None)
 
 
-    
