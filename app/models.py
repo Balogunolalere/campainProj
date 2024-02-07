@@ -9,6 +9,7 @@ class Status(str, Enum):
     sent = "sent"
 
 class Subscriber(BaseModel):
+    key: str = Field(...)
     email: EmailStr = Field(...)
     subscribed: bool = Field(...)
     created_at: datetime = Field(default_factory=datetime.now)
@@ -26,6 +27,7 @@ class SubscriberUpdate(BaseModel):
     source: Optional[str] = Field(None)
 
 class Campaign(BaseModel):
+    key: str = Field(...)
     subject: str = Field(...)
     content: str = Field(...)
     list_ids: List[str] = Field(...)
@@ -47,6 +49,7 @@ class CampaignUpdate(BaseModel):
     sender_id: Optional[str] = Field(None)
 
 class EmailList(BaseModel):
+    key: str = Field(...)
     name: str = Field(...)
     description: Optional[str] = Field(None)
     created_at: datetime = Field(default_factory=datetime.now)

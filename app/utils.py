@@ -5,11 +5,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from app import config  # import the config module
 
-# Function to validate email addresses
-def validate_email(email: str) -> bool:
-    """Validates an email address."""
-    email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    return re.match(email_regex, email) is not None
 
 # Function to generate unique IDs
 def generate_unique_id() -> str:
